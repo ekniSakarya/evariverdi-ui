@@ -1,0 +1,46 @@
+name: CI - Build Check
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Kodu çek
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Node.js kur
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      # 3. Bağımlılıkları yükle
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Build al (KOD ÇALIŞIR MI?)
+      - name: Build Project
+        run: npm run build
+
+      # 5. Build başarılı mesajı
+      - name: Build Success
+        if: success()
+        run: |
+          echo "✅ BUILD BAŞARILI - Kod çalışıyor!"
+          echo "Jenkins'ten manuel deploy alabilirsiniz."
+
+      # 6. Build hatası mesajı
+      - name: Build Failed
+        if: failure()
+        run: |
+          echo "❌ BUILD HATASI - Kod çalışmıyor!"
+          echo "Hataları düzeltip tekrar push yapın."
