@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  evariverdi-ui:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: evariverdi-ui
+    ports:
+      - "8084:80"
+    restart: unless-stopped
