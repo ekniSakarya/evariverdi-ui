@@ -1,0 +1,44 @@
+name: CI - Build Check
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./app
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: ./app/package-lock.json
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Build Success
+        if: success()
+        run: |
+          echo "BUILD BASARILI - Kod calisiyor!"
+          echo "Jenkinsten manuel deploy alabilirsiniz."
+
+      - name: Build Failed
+        if: failure()
+        run: |
+          echo "BUILD HATASI - Kod calismiyor!"
+          echo "Hatalari duzeltip tekrar push yapin."
