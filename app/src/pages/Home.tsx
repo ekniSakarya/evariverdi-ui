@@ -2,7 +2,7 @@ export default function Home() {
   return (
     <div
       className="min-h-screen w-full flex items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/vox-main.png')" }}
+      style={{ backgroundImage: "url('/vox-main.jpg')" }}
     >
       {/* Koyu overlay - görsel üzerine yarı saydam siyah katman */}
       <div className="absolute inset-0 bg-black/40" />
